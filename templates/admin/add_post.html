@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}Add Blog Post{% endblock %}
+
+{% block content %}
+<div class="max-w-3xl mx-auto px-6 py-12">
+    <h1 class="text-3xl font-bold mb-6">Add New Blog Post</h1>
+
+    <!-- Added enctype for file uploads -->
+    <form method="POST" enctype="multipart/form-data">
+        <!-- Title -->
+        <label class="block mb-2 font-semibold">Title</label>
+        <input type="text" name="title" class="w-full p-2 border rounded mb-4" required>
+
+        <!-- Content -->
+        <label class="block mb-2 font-semibold">Content</label>
+        <textarea name="content" class="w-full p-2 border rounded mb-4" rows="8" required></textarea>
+
+        <!-- Image Upload -->
+        <label class="block mb-2 font-semibold">Upload Image (PNG, JPG, JPEG, GIF)</label>
+        <input type="file" name="image" accept=".png,.jpg,.jpeg,.gif" class="w-full mb-4">
+
+        <!-- Video Upload -->
+        <label class="block mb-2 font-semibold">Upload Video (MP4, MOV, AVI)</label>
+        <input type="file" name="video" accept=".mp4,.mov,.avi" class="w-full mb-4">
+
+        <!-- Published Checkbox -->
+        <label class="flex items-center mb-4">
+            <input type="checkbox" name="published" class="mr-2" checked> Published
+        </label>
+
+        <!-- Submit Button -->
+        <button type="submit" class="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700">
+            Create Post
+        </button>
+    </form>
+</div>
+{% endblock %}

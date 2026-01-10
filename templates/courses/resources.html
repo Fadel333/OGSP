@@ -1,0 +1,54 @@
+ {% extends "base.html" %}
+
+{% block title %}Resources | {{ level_subject.level.name }} - {{ level_subject.subject.name }}{% endblock %}
+
+{% block content %}
+<h1 class="text-2xl font-bold mb-6">
+    Resources for {{ level_subject.subject.name }} - {{ level_subject.level.course.name }} {{ level_subject.level.name }}
+</h1>
+
+{% if resources %}
+    <ul class="space-y-4">
+        {% for resource in resources %}
+            <li class="bg-white p-5 rounded-2xl shadow-md flex flex-col md:flex-row justify-between items-start md:items-center">
+                <div class="mb-3 md:mb-0">
+                    <h2 class="text-lg font-semibold text-gray-800">{{ resource.title }}</h2>
+                    <p class="text-gray-500 mt-1">
+                        Type: {{ resource.resource_type | capitalize }}
+                        {% if resource.author %} | Author: {{ resource.author }}{% endif %}
+                        {% if not resource.is_free %} | Price: ${{ resource.price }}{% endif %}
+                    </p>
+                </div>
+
+                <div class="flex flex-col md:flex-row gap-2">
+                    {% if resource.can_access %}
+                        {% if resource.resource_type in ['pdf', 'book'] %}
+                            <a href="{{ resource.file_url }}" target="_blank"
+                               class="bg-green-600 text-white px-4 py-2 rounded-xl hover:bg-green-700 transition">
+                               Read / Download
+                            </a>
+                        {% elif resource.resource_type == 'video' %}
+                            <a href="{{ resource.file_url }}" target="_blank"
+                               class="bg-blue-600 text-white px-4 py-2 rounded-xl hover:bg-blue-700 transition">
+                               Watch Video
+                            </a>
+                        {% elif resource.resource_type == 'audio' %}
+                            <a href="{{ resource.file_url }}" target="_blank"
+                               class="bg-purple-600 text-white px-4 py-2 rounded-xl hover:bg-purple-700 transition">
+                               Listen Audio
+                            </a>
+                        {% endif %}
+                    {% else %}
+                        <a href="{{ url_for('courses.purchase_resource', resource_id=resource.id) }}"
+                           class="bg-yellow-500 text-white px-4 py-2 rounded-xl hover:bg-yellow-600 transition">
+                           Purchase for ${{ resource.price }}
+                        </a>
+                    {% endif %}
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p class="text-gray-500 mt-4">No resources available for this subject yet.</p>
+{% endif %}
+{% endblock %}

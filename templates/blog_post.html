@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}{{ post.title }} | OGSP{% endblock %}
+
+{% block content %}
+<section class="py-24 max-w-4xl mx-auto px-6">
+    <h1 class="text-4xl font-bold text-gray-900 mb-6">{{ post.title }}</h1>
+    <p class="text-gray-500 mb-6">{{ post.created_at.strftime('%b %d, %Y') }}</p>
+    <div class="prose max-w-full text-gray-700">
+        {{ post.content | safe }}
+    </div>
+    <div class="mt-8">
+        <a href="{{ url_for('home.index') }}" class="text-indigo-600 font-semibold hover:underline">
+            ← Back to Home
+        </a>
+    </div>
+</section>
+{% endblock %}

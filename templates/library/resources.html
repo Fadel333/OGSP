@@ -1,0 +1,30 @@
+ {% extends "base.html" %}
+
+{% block title %}Resources{% endblock %}
+
+{% block content %}
+<!-- Breadcrumb -->
+<nav>
+  <a href="{{ url_for('library.show_categories') }}">Categories</a> &raquo;
+  <!-- Optional: Add level and subject if you pass them -->
+</nav>
+
+<h1>Resources</h1>
+
+<ul>
+  {% for res in resources %}
+    <li>
+      <strong>{{ res.title }}</strong> - {{ res.resource_type }} by {{ res.author }}
+      {% if res.can_access %}
+        <a href="{{ res.file_url }}" target="_blank">Access</a>
+      {% else %}
+        <a href="{{ url_for('library.purchase_resource', resource_id=res.id) }}">
+          Purchase ({{ res.price }} $)
+        </a>
+      {% endif %}
+    </li>
+  {% else %}
+    <li>No resources available.</li>
+  {% endfor %}
+</ul>
+{% endblock %}

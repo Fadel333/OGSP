@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}Quiz Subjects{% endblock %}
+
+{% block content %}
+<div class="container mx-auto py-8">
+    <h1 class="text-2xl font-bold mb-6">Select a Quiz Topic</h1>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="mb-4">
+                {% for category, msg in messages %}
+                    <div class="p-3 rounded {{ 'bg-red-200 text-red-800' if category=='error' else 'bg-green-200 text-green-800' }}">
+                        {{ msg }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    <ul class="space-y-4">
+        {% for quiz in quizzes %}
+            <li>
+                <a href="{{ url_for('quiz.take', subject_id=quiz.subject.id) }}" class="block p-4 border rounded hover:bg-gray-100">
+                    <strong>{{ loop.index }}.</strong>
+                    {{ quiz.subject.name }} - {{ quiz.questions[0].topic if quiz.questions else "No Topic" }} - 
+                    {{ quiz.questions[0].type|capitalize if quiz.questions else "Unknown" }} Question
+                </a>
+            </li>
+        {% else %}
+            <li class="text-gray-500">No quizzes available for your level yet.</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}Notifications{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-6 py-8">
+    <h1 class="text-4xl font-bold mb-8 text-center">Your Notifications</h1>
+
+    {% if notifications %}
+        <div class="space-y-4">
+            {% for note in notifications %}
+            <div class="p-4 rounded-lg shadow flex justify-between items-center
+                        {% if not note.is_read %}bg-blue-50 border-l-4 border-blue-500{% else %}bg-gray-50{% endif %}">
+                <div>
+                    <p class="text-gray-800 font-medium">{{ note.message }}</p>
+                    <p class="text-sm text-gray-500 mt-1">{{ note.created_at.strftime('%b %d, %Y %I:%M %p') }}</p>
+                </div>
+                <div class="flex items-center space-x-2">
+                    {% if not note.is_read %}
+                    <a href="{{ url_for('notifications.mark_as_read', notification_id=note.id) }}"
+                       class="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 transition">
+                        Mark as read
+                    </a>
+                    {% else %}
+                    <span class="px-3 py-1 bg-gray-300 text-gray-700 rounded">Read</span>
+                    {% endif %}
+                    {% if note.link %}
+                    <a href="{{ note.link }}" class="px-3 py-1 bg-green-500 text-white rounded hover:bg-green-600 transition">
+                        View
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="text-center text-gray-500">You have no notifications.</p>
+    {% endif %}
+</div>
+{% endblock %}

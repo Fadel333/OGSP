@@ -1,0 +1,35 @@
+ {% extends "base.html" %}
+
+{% block title %}Subjects | {{ level.name }}{% endblock %}
+
+{% block content %}
+<h1 class="text-2xl font-bold mb-4">{{ level.course.name }} - {{ level.name }} Subjects</h1>
+
+<h2 class="text-xl font-semibold mt-4">Core Subjects</h2>
+<ul class="space-y-2">
+    {% for subject in core_subjects %}
+        <li class="bg-white p-4 rounded-xl shadow flex justify-between items-center">
+            <a href="{{ url_for('courses.show_resources', level_id=level.id, subject_id=subject.id) }}"
+               class="text-gray-800 font-semibold hover:underline">
+               {{ subject.name }}
+            </a>
+        </li>
+    {% else %}
+        <li class="text-gray-500">No core subjects available.</li>
+    {% endfor %}
+</ul>
+
+<h2 class="text-xl font-semibold mt-6">Elective Subjects</h2>
+<ul class="space-y-2">
+    {% for subject in elective_subjects %}
+        <li class="bg-white p-4 rounded-xl shadow flex justify-between items-center">
+            <a href="{{ url_for('courses.show_resources', level_id=level.id, subject_id=subject.id) }}"
+               class="text-gray-800 font-semibold hover:underline">
+               {{ subject.name }}
+            </a>
+        </li>
+    {% else %}
+        <li class="text-gray-500">No elective subjects available.</li>
+    {% endfor %}
+</ul>
+{% endblock %}

@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %}Select Level{% endblock %}
+
+{% block content %}
+<div class="container mx-auto py-8">
+    <h1 class="text-2xl font-bold mb-6">Select a Level</h1>
+
+    <ul>
+        {% for level in levels %}
+            <li class="mb-2">
+                <a href="{{ url_for('quiz.subjects', level_id=level.id) }}" class="block p-4 border rounded hover:bg-gray-100">
+                    {{ level.name }}
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

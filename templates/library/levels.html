@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}Levels in {{ category.name }}{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-6 py-8">
+    <h1 class="text-4xl font-bold mb-8 text-center">Levels in {{ category.name }}</h1>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+        {% for level in levels %}
+        <a href="{{ url_for('library.show_subjects', level_id=level.id) }}"
+           class="p-6 bg-white shadow rounded-lg hover:shadow-lg transition duration-300 flex flex-col justify-between">
+            <h2 class="text-2xl font-semibold">{{ level.name }}</h2>
+            <p class="text-gray-500 mt-2">{{ level.subjects|length }} Subjects</p>
+        </a>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

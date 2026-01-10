@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %}Select Course{% endblock %}
+
+{% block content %}
+<div class="container mx-auto py-8">
+    <h1 class="text-2xl font-bold mb-6">Select a Course</h1>
+
+    <ul>
+        {% for course in courses %}
+            <li class="mb-2">
+                <a href="{{ url_for('quiz.levels', course_id=course.id) }}" class="block p-4 border rounded hover:bg-gray-100">
+                    {{ course.name }}
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

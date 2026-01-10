@@ -1,0 +1,14 @@
+ <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+    {% for group in groups %}
+        <div class="bg-white rounded shadow p-4">
+            <h3 class="font-bold text-lg">{{ group.name }}</h3>
+            <p class="text-gray-600">{{ group.description or 'No description' }}</p>
+            <a href="{{ url_for('groups.group_detail', group_id=group.id) }}"
+               class="mt-2 inline-block bg-blue-600 text-white py-1 px-3 rounded hover:bg-blue-700 transition">
+               View
+            </a>
+        </div>
+    {% else %}
+        <p class="col-span-full text-gray-500">No groups found.</p>
+    {% endfor %}
+</div>

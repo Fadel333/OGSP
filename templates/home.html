@@ -1,0 +1,429 @@
+{% extends "base.html" %} 
+{% block title %}OGSP | Learn Better, Together{% endblock %}
+
+{% block content %}
+
+<!-- ================= NAVBAR ================= -->
+<nav class="fixed top-0 inset-x-0 z-50 bg-white/90 backdrop-blur border-b">
+    <div class="max-w-7xl mx-auto px-6">
+        <div class="flex justify-between items-center h-16">
+            <!-- Logo -->
+            <a href="{{ url_for('home_bp.index') }}" class="text-xl font-extrabold text-indigo-600">
+                OGSP
+            </a>
+
+            <!-- Links -->
+            <div class="hidden md:flex items-center gap-8 font-medium text-gray-700">
+                <a href="#categories" class="hover:text-indigo-600 transition">Categories</a>
+                <a href="#how-it-works" class="hover:text-indigo-600 transition">How it Works</a>
+                <a href="#benefits" class="hover:text-indigo-600 transition">Benefits</a>
+                <a href="#testimonials" class="hover:text-indigo-600 transition">Testimonials</a>
+                <a href="#faq" class="hover:text-indigo-600 transition">FAQ</a>
+            </div>
+
+            <!-- Auth Buttons -->
+            <div class="flex items-center gap-3">
+                <a href="{{ url_for('auth.login') }}"
+                   class="px-4 py-2 rounded-lg text-gray-700 hover:bg-gray-100 transition">
+                    Login
+                </a>
+                <a href="{{ url_for('auth.register') }}"
+                   class="px-5 py-2 rounded-lg bg-indigo-600 text-white hover:bg-indigo-700 transition">
+                    Join Free
+                </a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<!-- ================= HERO ================= -->
+<section class="relative pt-32 pb-28 overflow-hidden bg-gradient-to-br from-indigo-900 via-blue-900 to-purple-900 text-white">
+    <div class="absolute inset-0">
+        <div class="absolute -top-40 -left-40 w-[32rem] h-[32rem] bg-indigo-500 rounded-full blur-3xl opacity-30"></div>
+        <div class="absolute top-1/3 -right-40 w-[32rem] h-[32rem] bg-purple-500 rounded-full blur-3xl opacity-30"></div>
+    </div>
+
+    <div class="relative max-w-7xl mx-auto px-6 text-center">
+        <h1 class="text-4xl md:text-6xl font-extrabold leading-tight mb-6">
+            Learn Better. Together.
+        </h1>
+
+        <p class="max-w-2xl mx-auto text-lg md:text-xl text-gray-200 mb-10">
+            Join OGSP and collaborate globally with students across all fields of study.
+        </p>
+
+        <div class="flex flex-col sm:flex-row justify-center gap-4">
+            <a href="{{ url_for('auth.register') }}"
+               class="px-10 py-4 rounded-xl bg-indigo-500 hover:bg-indigo-600 font-semibold transition">
+                Join Free
+            </a>
+            <a href="{{ url_for('auth.login') }}"
+               class="px-10 py-4 rounded-xl border border-white/30 hover:bg-white/10 transition">
+                Login
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- ================= TRUST BAR ================= -->
+<section class="bg-white py-10 border-b">
+    <div class="max-w-7xl mx-auto px-6 text-center">
+        <p class="text-gray-500 mb-6 text-sm uppercase tracking-wide">
+            Trusted by students from universities and institutions worldwide
+        </p>
+        <div class="flex flex-wrap justify-center gap-10 text-gray-400 text-lg font-semibold">
+            <span>University Students</span>
+            <span>High School Learners</span>
+            <span>Online Educators</span>
+            <span>Study Communities</span>
+        </div>
+    </div>
+</section>
+
+
+<!-- ================= CATEGORIES PREVIEW ================= -->
+<section id="categories" class="py-24 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-6">
+        <div class="text-center mb-16">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-900">
+                Explore Learning Categories
+            </h2>
+            <p class="text-gray-600 mt-4 max-w-xl mx-auto">
+                Preview our most popular subjects. Sign up to access full courses.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
+            {% for category in categories %}
+            <div class="bg-white p-6 rounded-2xl shadow hover:shadow-lg transition flex flex-col justify-between">
+                <div>
+                    <h3 class="text-xl font-semibold mb-2">{{ category.name }}</h3>
+                    <p class="text-gray-600 mb-4">{{ category.description[:60] ~ '...' if category.description|length > 60 else category.description }}</p>
+                </div>
+                <div class="text-center mt-auto">
+                    <span class="inline-block px-4 py-2 rounded-full bg-indigo-100 text-indigo-700 font-semibold text-sm">
+                        Sign up to access
+                    </span>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- ================= WHY OGSP ================= -->
+<section class="py-24 bg-white">
+    <div class="max-w-7xl mx-auto px-6">
+        <div class="grid md:grid-cols-2 gap-16 items-center">
+            <div>
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
+                    More Than Just Learning — It’s a Community
+                </h2>
+                <p class="text-gray-600 mb-6">
+                    OGSP is designed to bring students together. Instead of learning alone,
+                    you collaborate, discuss, share ideas, and grow with others who share
+                    the same academic goals.
+                </p>
+                <ul class="space-y-4 text-gray-700">
+                    <li>✅ Real-time academic collaboration</li>
+                    <li>✅ Structured learning paths</li>
+                    <li>✅ Peer-to-peer knowledge sharing</li>
+                    <li>✅ Safe and focused learning environment</li>
+                </ul>
+            </div>
+
+            <div class="grid grid-cols-2 gap-6">
+                <div class="bg-indigo-50 p-6 rounded-2xl text-center">
+                    <div class="text-3xl font-bold text-indigo-600 mb-2">24/7</div>
+                    <p class="text-gray-700">Access Anywhere</p>
+                </div>
+                <div class="bg-purple-50 p-6 rounded-2xl text-center">
+                    <div class="text-3xl font-bold text-purple-600 mb-2">100%</div>
+                    <p class="text-gray-700">Student-Focused</p>
+                </div>
+                <div class="bg-blue-50 p-6 rounded-2xl text-center">
+                    <div class="text-3xl font-bold text-blue-600 mb-2">Global</div>
+                    <p class="text-gray-700">Connections</p>
+                </div>
+                <div class="bg-green-50 p-6 rounded-2xl text-center">
+                    <div class="text-3xl font-bold text-green-600 mb-2">Secure</div>
+                    <p class="text-gray-700">Platform</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- ================= STUDY GROUPS PREVIEW ================= -->
+<section class="py-24 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-6 text-center">
+        <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
+            Learn Together in Study Groups
+        </h2>
+        <p class="text-gray-600 max-w-2xl mx-auto mb-12">
+            Join or create study groups based on subjects, exams, or interests
+            and collaborate with learners around the world.
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+            <div class="bg-white p-8 rounded-2xl shadow hover:shadow-lg transition">
+                <h3 class="text-xl font-semibold mb-2">Subject-Based Groups</h3>
+                <p class="text-gray-600">Math, Science, Tech, Business, Arts, and more.</p>
+            </div>
+            <div class="bg-white p-8 rounded-2xl shadow hover:shadow-lg transition">
+                <h3 class="text-xl font-semibold mb-2">Exam Preparation</h3>
+                <p class="text-gray-600">Prepare for tests, quizzes, and finals together.</p>
+            </div>
+            <div class="bg-white p-8 rounded-2xl shadow hover:shadow-lg transition">
+                <h3 class="text-xl font-semibold mb-2">Peer Discussions</h3>
+                <p class="text-gray-600">Ask questions, share notes, and exchange ideas.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- ================= HOW IT WORKS ================= -->
+<section id="how-it-works" class="py-24">
+    <div class="max-w-7xl mx-auto px-6 text-center">
+        <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-12">How OGSP Works</h2>
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-10">
+            <div class="bg-white rounded-2xl p-8 shadow hover:shadow-lg transition">
+                <div class="text-indigo-600 text-4xl mb-4">📝</div>
+                <h3 class="text-xl font-semibold mb-2">Sign Up</h3>
+                <p class="text-gray-600">Create your free account and join the OGSP community.</p>
+            </div>
+            <div class="bg-white rounded-2xl p-8 shadow hover:shadow-lg transition">
+                <div class="text-indigo-600 text-4xl mb-4">📚</div>
+                <h3 class="text-xl font-semibold mb-2">Preview Courses</h3>
+                <p class="text-gray-600">Browse categories and see what OGSP has to offer.</p>
+            </div>
+            <div class="bg-white rounded-2xl p-8 shadow hover:shadow-lg transition">
+                <div class="text-indigo-600 text-4xl mb-4">👥</div>
+                <h3 class="text-xl font-semibold mb-2">Join Study Groups</h3>
+                <p class="text-gray-600">Connect with students worldwide to collaborate and learn together.</p>
+            </div>
+            <div class="bg-white rounded-2xl p-8 shadow hover:shadow-lg transition">
+                <div class="text-indigo-600 text-4xl mb-4">🚀</div>
+                <h3 class="text-xl font-semibold mb-2">Start Learning</h3>
+                <p class="text-gray-600">Sign up to unlock full courses, groups, and discussions.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ================= BENEFITS ================= -->
+<section id="benefits" class="py-24 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-6 text-center">
+        <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-12">Why Students Love OGSP</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-8">
+            <div class="p-6">
+                <div class="text-indigo-600 text-4xl mb-4">🌍</div>
+                <p class="text-gray-700 font-semibold">Global Collaboration</p>
+            </div>
+            <div class="p-6">
+                <div class="text-indigo-600 text-4xl mb-4">🗂️</div>
+                <p class="text-gray-700 font-semibold">Organized Learning</p>
+            </div>
+            <div class="p-6">
+                <div class="text-indigo-600 text-4xl mb-4">🔒</div>
+                <p class="text-gray-700 font-semibold">Safe Academic Space</p>
+            </div>
+            <div class="p-6">
+                <div class="text-indigo-600 text-4xl mb-4">💡</div>
+                <p class="text-gray-700 font-semibold">Built for Students</p>
+            </div>
+            <div class="p-6">
+                <div class="text-indigo-600 text-4xl mb-4">📈</div>
+                <p class="text-gray-700 font-semibold">Track Progress</p>
+            </div>
+            <div class="p-6">
+                <div class="text-indigo-600 text-4xl mb-4">🔔</div>
+                <p class="text-gray-700 font-semibold">Personalized Notifications</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ================= LEARNING RESOURCES ================= -->
+<section class="py-24 bg-white">
+    <div class="max-w-7xl mx-auto px-6 text-center">
+        <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
+            Powerful Learning Resources
+        </h2>
+        <p class="text-gray-600 max-w-2xl mx-auto mb-12">
+            Access curated academic materials designed to support your learning journey.
+        </p>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
+            <div class="bg-gray-50 p-6 rounded-2xl shadow-sm">
+                📄 <p class="mt-2 font-semibold">Study Notes</p>
+            </div>
+            <div class="bg-gray-50 p-6 rounded-2xl shadow-sm">
+                🎥 <p class="mt-2 font-semibold">Video Lessons</p>
+            </div>
+            <div class="bg-gray-50 p-6 rounded-2xl shadow-sm">
+                🧪 <p class="mt-2 font-semibold">Practice Tests</p>
+            </div>
+            <div class="bg-gray-50 p-6 rounded-2xl shadow-sm">
+                📊 <p class="mt-2 font-semibold">Progress Tracking</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- ================= BLOG / UPDATES ================= -->
+<section class="py-24 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-6">
+        <div class="text-center mb-14">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-900">Latest Updates & Insights</h2>
+            <p class="text-gray-600 mt-4 max-w-2xl mx-auto">
+                Stay informed with platform updates, study tips, and academic insights from OGSP.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+            {% for post in latest_posts %}
+            <div class="bg-white rounded-2xl shadow hover:shadow-lg transition">
+                <div class="p-6">
+                    <span class="text-sm text-indigo-600 font-semibold">
+                        {{ post.category.name if post.category else 'Update' }}
+                    </span>
+                    <h3 class="text-xl font-bold mt-2 mb-3">{{ post.title }}</h3>
+                    <p class="text-gray-600 mb-4">
+                        {{ post.content[:120] ~ '...' if post.content|length > 120 else post.content }}
+                    </p>
+                    <a href="{{ url_for('home_bp.view_post', slug=post.slug) }}" class="text-indigo-600 font-semibold hover:underline">
+                        Read more →
+                    </a>
+                </div>
+            </div>
+            {% else %}
+            <p class="text-gray-500 col-span-3 text-center">
+                No updates yet. Check back soon!
+            </p>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+
+<!-- ================= TESTIMONIALS ================= -->
+<section id="testimonials" class="py-24">
+    <div class="max-w-7xl mx-auto px-6 text-center">
+        <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-12">What Our Students Say</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+            <div class="bg-white p-8 rounded-2xl shadow hover:shadow-lg transition">
+                <p class="text-gray-600 mb-4">"OGSP helped me find study partners worldwide!"</p>
+                <span class="font-semibold text-gray-900">– Student A</span>
+            </div>
+            <div class="bg-white p-8 rounded-2xl shadow hover:shadow-lg transition">
+                <p class="text-gray-600 mb-4">"I improved my grades by collaborating in study groups."</p>
+                <span class="font-semibold text-gray-900">– Student B</span>
+            </div>
+            <div class="bg-white p-8 rounded-2xl shadow hover:shadow-lg transition">
+                <p class="text-gray-600 mb-4">"Best platform for academic resources."</p>
+                <span class="font-semibold text-gray-900">– Student C</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ================= STATISTICS / IMPACT ================= -->
+<section class="py-24 bg-indigo-50 text-center">
+    <div class="max-w-7xl mx-auto px-6">
+        <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-12">Our Impact</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
+            <div>
+                <div class="text-4xl font-bold text-indigo-600 mb-2" data-count="5000">0</div>
+                <p class="text-gray-700">Students</p>
+            </div>
+            <div>
+                 <div class="text-4xl font-bold text-indigo-600 mb-2" data-count="1200">0</div>
+                <p class="text-gray-700">Courses</p>
+            </div>
+            <div>
+                 <div class="text-4xl font-bold text-indigo-600 mb-2" data-count="350">0</div>
+                <p class="text-gray-700">Study Groups</p>
+            </div>
+            <div>
+                 <div class="text-4xl font-bold text-indigo-600 mb-2" data-count="30">0</div>
+                <p class="text-gray-700">Countries</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ================= FAQ ================= -->
+<section id="faq" class="py-24 bg-gray-50">
+    <div class="max-w-3xl mx-auto px-6 text-center">
+        <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-12">Frequently Asked Questions</h2>
+        <div class="space-y-6 text-left">
+            <div>
+                <h3 class="font-semibold text-gray-800 mb-2">Is OGSP free?</h3>
+                <p class="text-gray-600">Yes, basic account is free. Premium content requires subscription.</p>
+            </div>
+            <div>
+                <h3 class="font-semibold text-gray-800 mb-2">Can I join multiple study groups?</h3>
+                <p class="text-gray-600">Yes, you can join as many groups as you like.</p>
+            </div>
+            <div>
+                <h3 class="font-semibold text-gray-800 mb-2">Do I need to be a student?</h3>
+                <p class="text-gray-600">Anyone interested in learning can join OGSP.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ================= FINAL CTA ================= -->
+<section class="py-20 bg-gradient-to-r from-indigo-600 to-purple-600 text-white text-center">
+    <h2 class="text-3xl md:text-4xl font-bold mb-6">
+        Start Learning With Students Around the World
+    </h2>
+    <p class="text-lg text-indigo-100 mb-8">
+        Sign up now to unlock all courses, groups, and discussions.
+    </p>
+    <a href="{{ url_for('auth.register') }}"
+       class="inline-block px-12 py-4 bg-white text-indigo-700 font-semibold rounded-xl hover:bg-gray-100 transition">
+        Create Free Account
+    </a>
+</section>
+
+<!-- ================= FOOTER ================= -->
+<footer class="bg-gray-900 text-gray-400 py-12">
+    <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-3 gap-8">
+        <div>
+            <h3 class="text-xl font-bold text-white mb-3">OGSP</h3>
+            <p class="text-sm">
+                Helping students learn better, together.
+            </p>
+        </div>
+
+        <div>
+            <h4 class="font-semibold text-white mb-3">Platform</h4>
+            <ul class="space-y-2 text-sm">
+                <li><a href="#categories" class="hover:text-white">Categories</a></li>
+                <li><a href="#how-it-works" class="hover:text-white">How it Works</a></li>
+                <li><a href="#benefits" class="hover:text-white">Benefits</a></li>
+                <li><a href="#testimonials" class="hover:text-white">Testimonials</a></li>
+                <li><a href="#faq" class="hover:text-white">FAQ</a></li>
+            </ul>
+        </div>
+
+        <div>
+            <h4 class="font-semibold text-white mb-3">Legal</h4>
+            <ul class="space-y-2 text-sm">
+                <li><a href="{{ url_for('legal.privacy_policy') }}" class="hover:text-white">Privacy Policy</a></li>
+                <li><a href="{{ url_for('legal.terms_and_conditions') }}" class="hover:text-white">Terms of Service</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="text-center text-sm text-gray-500 mt-10">
+        © {{ current_year }} OGSP. All rights reserved.
+    </div>
+</footer>
+
+{% endblock %}  

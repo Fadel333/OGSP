@@ -1,0 +1,27 @@
+{% for msg in messages %}
+
+     <div class="flex justify-between items-center mb-2">
+    <h3 class="font-bold">Discussion</h3>
+    <span class="text-sm text-gray-500">{{ online_count }} online</span>
+</div>
+
+    {% if msg.user_id == current_user.id %}
+        <div class="flex justify-end">
+            <div class="bg-blue-600 text-white p-3 rounded-lg rounded-br-none max-w-xs break-words">
+                {{ msg.message }}
+                <div class="text-xs text-gray-200 mt-1 text-right">
+                    {{ msg.timestamp.strftime('%H:%M') }}
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div class="flex justify-start">
+            <div class="bg-gray-200 text-gray-900 p-3 rounded-lg rounded-bl-none max-w-xs break-words">
+                <span class="font-bold">{{ msg.user.name }}: </span>{{ msg.message }}
+                <div class="text-xs text-gray-500 mt-1 text-right">
+                    {{ msg.timestamp.strftime('%H:%M') }}
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endfor %}

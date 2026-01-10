@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block title %}Admin Dashboard{% endblock %}
+
+{% block content %}
+<div class="max-w-6xl mx-auto px-6 py-12">
+    <h1 class="text-3xl font-bold mb-6">Admin Dashboard</h1>
+
+    <a href="{{ url_for('admin_bp.add_post') }}" class="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700">Add New Post</a>
+
+    <table class="min-w-full mt-6 border">
+        <thead>
+            <tr class="bg-gray-100">
+                <th class="px-4 py-2">ID</th>
+                <th class="px-4 py-2">Title</th>
+                <th class="px-4 py-2">Image</th>
+                <th class="px-4 py-2">Video</th>
+                <th class="px-4 py-2">Published</th>
+                <th class="px-4 py-2">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for post in posts %}
+            <tr class="border-t">
+                <td class="px-4 py-2">{{ post.id }}</td>
+                <td class="px-4 py-2">{{ post.title }}</td>
+
+                <!-- Image preview -->
+                <td class="px-4 py-2">
+                    {% if post.image %}
+                        <img src="{{ url_for('static', filename='uploads/blog/' ~ post.image) }}" alt="Image" class="h-16 w-16 object-cover rounded">
+                    {% else %}
+                        N/A
+                    {% endif %}
+                </td>
+
+                <!-- Video preview -->
+                <td class="px-4 py-2">
+                    {% if post.video %}
+                        <video class="h-16 w-32" controls>
+                            <source src="{{ url_for('static', filename='uploads/blog/' ~ post.video) }}" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    {% else %}
+                        N/A
+                    {% endif %}
+                </td>
+
+                <td class="px-4 py-2">{{ "Yes" if post.published else "No" }}</td>
+                <td class="px-4 py-2 flex gap-2">
+                    <a href="{{ url_for('admin_bp.edit_post', post_id=post.id) }}" class="px-2 py-1 bg-yellow-500 text-white rounded">Edit</a>
+                    <form action="{{ url_for('admin_bp.delete_post', post_id=post.id) }}" method="POST" onsubmit="return confirm('Are you sure?');">
+                        <button type="submit" class="px-2 py-1 bg-red-500 text-white rounded">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

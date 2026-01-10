@@ -1,0 +1,133 @@
+{% extends "base.html" %}
+
+{% block title %}{{ group.name }} - OGSP{% endblock %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto mt-6">
+
+    <!-- Group Header -->
+    <div class="bg-white p-4 rounded shadow mb-4">
+        <h2 class="text-xl font-bold">{{ group.name }}</h2>
+        <p class="text-gray-600">{{ group.description or 'No description' }}</p>
+
+        {% if not is_member and not pending_request %}
+            <form action="{{ url_for('groups.request_join', group_id=group.id) }}" method="POST" class="mt-2">
+                <button type="submit"
+                        class="bg-blue-600 text-white py-1 px-3 rounded hover:bg-blue-700 transition">
+                    Request to Join
+                </button>
+            </form>
+        {% elif pending_request %}
+            <span class="text-gray-500 mt-2 inline-block">Join request pending...</span>
+        {% endif %}
+    </div>
+
+    <!-- Join Requests for Owner -->
+    {% if join_requests %}
+        <div class="bg-white p-4 rounded shadow mb-4">
+            <h3 class="font-bold mb-2">Join Requests</h3>
+            {% for req in join_requests %}
+                <div class="flex justify-between items-center border-b py-2">
+                    <span>{{ req.user.name }}</span>
+                    <div class="space-x-2">
+                        <form action="{{ url_for('groups.approve_request', request_id=req.id) }}" method="POST" class="inline">
+                            <button type="submit"
+                                    class="bg-green-600 text-white py-1 px-3 rounded hover:bg-green-700 transition">
+                                Approve
+                            </button>
+                        </form>
+                        <form action="{{ url_for('groups.reject_request', request_id=req.id) }}" method="POST" class="inline">
+                            <button type="submit"
+                                    class="bg-red-600 text-white py-1 px-3 rounded hover:bg-red-700 transition">
+                                Reject
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <!-- Messages Section -->
+    {% if is_member %}
+        <div class="bg-white p-4 rounded shadow mb-4">
+            <!-- Discussion Header -->
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="font-bold text-lg">Discussion</h3>
+                <span class="text-sm text-gray-500">{{ online_count }} online</span>
+            </div>
+
+            <!-- Messages Container -->
+            <div id="messagesContainer" class="space-y-2 max-h-96 overflow-y-auto mb-4">
+                {% for msg in messages %}
+                    {% if msg.user_id == current_user.id %}
+                        <div class="flex justify-end">
+                            <div class="bg-blue-600 text-white p-3 rounded-lg rounded-br-none max-w-xs break-words">
+                                {{ msg.message }}
+                                <div class="text-xs text-gray-200 mt-1 text-right">
+                                    {{ msg.timestamp.strftime('%H:%M') }}
+                                </div>
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="flex justify-start">
+                            <div class="bg-gray-200 text-gray-900 p-3 rounded-lg rounded-bl-none max-w-xs break-words">
+                                <span class="font-bold">{{ msg.user.name }}: </span>{{ msg.message }}
+                                <div class="text-xs text-gray-500 mt-1 text-right">
+                                    {{ msg.timestamp.strftime('%H:%M') }}
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+
+            <!-- Message Input -->
+            <form action="{{ url_for('groups.group_detail', group_id=group.id) }}" method="POST">
+                <textarea name="message" rows="2" placeholder="Type a message..."
+                          class="w-full rounded border-gray-300 focus:ring-blue-500 focus:border-blue-500 sm:text-sm mb-2"></textarea>
+                <button type="submit"
+                        class="bg-blue-600 text-white py-1 px-3 rounded hover:bg-blue-700 transition">
+                    Send
+                </button>
+            </form>
+        </div>
+
+        <!-- Leave Group -->
+        <form action="{{ url_for('groups.leave_group', group_id=group.id) }}" method="POST">
+            <button type="submit"
+                    class="bg-red-600 text-white py-1 px-3 rounded hover:bg-red-700 transition">
+                Leave Group
+            </button>
+        </form>
+    {% endif %}
+
+</div>
+
+<!-- Messages Auto-Refresh Script -->
+<script>
+    const messagesContainer = document.getElementById("messagesContainer");
+    const groupId = "{{ group.id }}";
+
+    async function fetchMessages() {
+        try {
+            const response = await fetch(`/groups/${groupId}/messages`);
+            const data = await response.text();
+            messagesContainer.innerHTML = data;
+
+            // Scroll to bottom
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        } catch (err) {
+            console.error("Error fetching messages:", err);
+        }
+    }
+
+    // Poll messages every 3 seconds
+    setInterval(fetchMessages, 3000);
+
+    // Auto-scroll on page load
+    window.onload = () => {
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    };
+</script>
+{% endblock %}

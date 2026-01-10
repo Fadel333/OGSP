@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title %}Select Topic{% endblock %}
+
+{% block content %}
+<div class="container mx-auto py-8">
+    <h1 class="text-2xl font-bold mb-6">Select a Topic</h1>
+
+    <ul>
+        {% for topic in topics %}
+            <li class="mb-2">
+                <a href="{{ url_for('quiz.question_type', subject_id=subject_id, qtype='objective', topic=topic) }}" 
+                   class="block p-4 border rounded hover:bg-gray-100 mb-1">
+                    {{ topic }} - Objective Questions
+                </a>
+                <a href="{{ url_for('quiz.question_type', subject_id=subject_id, qtype='theory', topic=topic) }}" 
+                   class="block p-4 border rounded hover:bg-gray-100">
+                    {{ topic }} - Theory Questions
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

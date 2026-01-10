@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %}Courses | {{ category.name }}{% endblock %}
+
+{% block content %}
+<h1 class="text-2xl font-bold mb-4">{{ category.name }} Courses</h1>
+
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    {% for course in category.courses %}
+        <a href="{{ url_for('courses.show_levels', course_id=course.id) }}"
+           class="bg-white p-6 rounded-xl shadow hover:shadow-lg transition flex flex-col justify-between">
+            <h2 class="text-lg font-semibold text-gray-800">{{ course.name }}</h2>
+            <p class="text-gray-500 mt-2">{{ course.description | default("No description available.") }}</p>
+        </a>
+    {% else %}
+        <p class="text-gray-500">No courses available in this category.</p>
+    {% endfor %}
+</div>
+{% endblock %}

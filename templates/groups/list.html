@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}Groups - OGSP{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto mt-6 px-4">
+
+    <!-- Search Bar -->
+    <form id="searchForm" class="mb-4 flex">
+        <input type="text" id="searchInput" name="q" placeholder="Search groups..."
+               value="{{ search_query }}"
+               class="flex-grow rounded-l border-gray-300 px-3 py-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+        <button type="submit"
+                class="bg-blue-600 text-white rounded-r px-4 py-2 hover:bg-blue-700 transition">
+            Search
+        </button>
+    </form>
+
+    <!-- Groups Container -->
+    <div id="groupsContainer">
+        {% include 'groups/_group_cards.html' %}
+    </div>
+
+</div>
+
+<!-- AJAX Script -->
+<script>
+document.getElementById('searchForm').addEventListener('submit', function(e) {
+    e.preventDefault(); // Prevent form submission
+
+    let query = document.getElementById('searchInput').value;
+
+    fetch(`/groups/search?q=${encodeURIComponent(query)}`)
+        .then(response => response.text())
+        .then(html => {
+            document.getElementById('groupsContainer').innerHTML = html;
+        })
+        .catch(err => console.error('Error fetching groups:', err));
+});
+</script>
+{% endblock %}

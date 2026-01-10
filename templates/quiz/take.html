@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}Take Quiz{% endblock %}
+
+{% block content %}
+<div class="container mx-auto py-8">
+    <h1 class="text-2xl font-bold mb-4">
+        {{ qtype.capitalize() }} Questions
+    </h1>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="mb-4">
+                {% for category, msg in messages %}
+                    <div class="p-3 rounded {{ 'bg-red-200 text-red-800' if category=='error' else 'bg-green-200 text-green-800' }}">
+                        {{ msg }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    <form method="POST" action="{{ url_for('quiz.submit', subject_id=subject_id, qtype=qtype, topic=topic) }}">
+        {% for q in questions %}
+            <div class="mb-6 p-4 border rounded">
+                <p class="font-semibold">{{ loop.index }}. [{{ q.topic }}] {{ q.text }}</p>
+
+                {% if q.type == "objective" %}
+                    {% for option in q.options_list %}
+                        <div class="mt-2">
+                            <label>
+                                <input type="radio" name="question_{{ q.id }}" value="{{ option }}" required>
+                                {{ option }}
+                            </label>
+                        </div>
+                    {% endfor %}
+                {% elif q.type == "theory" %}
+                    <textarea name="question_{{ q.id }}" rows="4" class="w-full mt-2 p-2 border rounded"></textarea>
+                {% endif %}
+            </div>
+        {% endfor %}
+
+        <button type="submit" class="px-6 py-2 bg-green-500 text-white rounded hover:bg-green-600">
+            Submit Quiz
+        </button>
+    </form>
+</div>
+{% endblock %}

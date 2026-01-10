@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}Subjects in {{ level.name }}{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-6 py-8">
+    <h1 class="text-4xl font-bold mb-8 text-center">Subjects in {{ level.name }}</h1>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+        {% for subject in subjects %}
+        <a href="{{ url_for('library.show_resources', subject_id=subject.id) }}"
+           class="p-6 bg-white shadow rounded-lg hover:shadow-lg transition duration-300 flex flex-col justify-between">
+            <h2 class="text-2xl font-semibold">{{ subject.name }}</h2>
+            <p class="text-gray-500 mt-2">{{ subject.resources|length }} Resources</p>
+        </a>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
